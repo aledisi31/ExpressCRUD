@@ -14,7 +14,7 @@ exports.createHero = function (req, res, next) {
 }
 
 exports.getHeros = function (req, res, next) {
-    Heros.getMaxListeners({}, function (err, heros) {
+    Heros.get({}, function (err, heros) {
         if(err) {
             res.json({error: err})
         }
@@ -31,12 +31,17 @@ exports.getHero = function (req, res, next) {
     })
 }
 
-exports.updateHero = function (req, res, next) {
+exports.updateHero = function(req, res, next) {
     var hero = {
         name: req.body.name,
         description: req.body.description
     }
-    Heros.updateOne({_id: req.params.id})
+    Heros.updateOne({_id: req.params.id}, hero, function(err, hero) {
+        if(err) {
+            res.json({error : err})
+        }
+        res.json({message : "Hero updated successfully"})
+    })
 }
 
 exports.removeHero = function (req, res, next) {
