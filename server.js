@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var properties = require('./config/properties');
 var db = require('./config/database');
 //rotte hero
-var herosRoutes = require('./heros/heros.routes');
+var herosRoutes = require('./api/heros/heros.routes');
 var app = express();
 
 //configurazione body-parser
@@ -33,7 +33,7 @@ app.use(function(req, res, next) {
  });
 
 // usa express router
-app.use('/Expressjsprove',router);
+app.use('/api',router);
 // chiama le rotte heros
 herosRoutes(router);
 
