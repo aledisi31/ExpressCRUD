@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 
 var properties = require('./config/properties');
 var db = require('./config/database');
+
 //rotte hero
 var herosRoutes = require('./api/heros/heros.routes');
 var app = express();
@@ -22,6 +23,8 @@ db();
 app.use(log);
 app.use(bodyParserJSON);
 app.use(bodyParserURLEncoded);
+app.use(express.static('public'));
+app.set('view engine', 'ejs');
 
 // Gestore errori
 app.use(function(req, res, next) {
@@ -36,6 +39,7 @@ app.use(function(req, res, next) {
 app.use('/api',router);
 // chiama le rotte heros
 herosRoutes(router);
+
 
 // inizializza il server
 app.listen(properties.PORT, (req, res) => {
