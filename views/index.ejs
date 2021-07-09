@@ -9,19 +9,56 @@
     <title>My app</title>
   </head>
   <body>
-    <i class="fa fa-table" aria-hidden="true">
+    <form action="/api/create" method="post">
+      <input type="text" name="name" placeholder="name" />
+      <input type="text" name="description" placeholder="description" />
+      <button type="submit">Invia</button>
+    </form>
+
+    <i class="fa fa-table" aria-hidden="false">
       <table>
         <tr>
           <td>Heros</td>
           <td>Description</td>
         </tr>
-        <% for( let index = 0; index < Heros.length; index++ ) { %>
+        <% for( let i = 0; i < heros.length; i++ ) { %>
         <tr>
-          <td><%= Heros.name %></td>
-          <td><%= Heros.description %></td>
+          <td><%= heros[i].name %></td>
+          <td><%= heros[i].description %></td>
+          <td>
+            <a
+              id="delete-button"
+              class="btn btn-raised btn-danger"
+              href="/remove/:id<%= heros[i]._id %>"
+              >Delete</a
+            >
+          </td>
         </tr>
         <% } %>
       </table>
     </i>
+    <script>
+      var deleteButton = document.querySelector("#delete-button");
+
+      deleteButton.addEventListener("click", (_) => {
+        fetch("/api/remove/:id", {
+          method: "delete",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            _id: req.params.id,
+          }),
+        })
+          .then((res) => {
+            if (res.ok) return res.json();
+          })
+          .then((response) => {
+            if (response === { error: err }) {
+              messageDiv.textContent = "No quote to delete";
+            } else {
+              window.location.reload(true);
+            }
+          });
+      });
+    </script>
   </body>
 </html>
