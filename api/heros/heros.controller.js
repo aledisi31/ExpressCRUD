@@ -9,7 +9,8 @@ exports.createHero = function (req, res, next) {
         if(err) {
             res.json({error: err})
         }
-        res.json({message: "hero created successfully"})
+        res.redirect('/api/Heros')
+        console.log('New HERO created!')
     })
 }
 
@@ -18,16 +19,17 @@ exports.getHeros = function (req, res, next) {
         if(err) {
             res.json({error: err})
         }
-        res.json({heros: heros})
+        res.render('index.ejs', {heros: heros});
     })
 }
+
 
 exports.getHero = function (req, res, next) {
     Heros.get ({name: req.params.name}, function(err, heros) {
         if(err) {
             res.json ({error: err})
         }
-        res.json ({heros: heros})
+         res.json ({heros: heros})
     })
 }
 
