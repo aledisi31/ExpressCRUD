@@ -7,6 +7,12 @@
 
     <link rel="stylesheet" href="/public/stylesheets/bootstrap.css" />
     <title>My app</title>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+      integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <form action="/api/create" method="post">
@@ -23,41 +29,48 @@
         </tr>
         <% for( let i = 0; i < heros.length; i++ ) { %>
         <tr>
+          <!-- <td><%= heros[i]._id %></td> -->
           <td><%= heros[i].name %></td>
           <td><%= heros[i].description %></td>
           <td>
-            <a
+            <button
               id="delete-button"
               class="btn btn-raised btn-danger"
-              href="/remove/:id<%= heros[i]._id %>"
-              >Delete</a
+              data-id="<%= heros[i]._id %>"
             >
+              Delete
+            </button>
+          </td>
+          <td>
+            <button
+              id="update-button"
+              class="update-button"
+              data-id="<%= heros[i]._id %>"
+            >
+              Update
+            </button>
           </td>
         </tr>
         <% } %>
       </table>
     </i>
     <script>
-      var deleteButton = document.querySelector("#delete-button");
+      var deleteButton = $(".btn.btn-raised.btn-danger");
 
-      deleteButton.addEventListener("click", (_) => {
-        fetch("/api/remove/:id", {
+      deleteButton.click(function () {
+        var id_hero = $(this).attr("data-id");
+
+        fetch("/api/remove/" + id_hero, {
           method: "delete",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            _id: req.params.id,
-          }),
-        })
-          .then((res) => {
-            if (res.ok) return res.json();
-          })
-          .then((response) => {
-            if (response === { error: err }) {
-              messageDiv.textContent = "No quote to delete";
-            } else {
-              window.location.reload(true);
-            }
-          });
+        });
+        // .then((response) => response.json())
+        // .then((result) => {
+        //   console.log("Success:", result);
+        // })
+        // .catch((error) => {
+        //   console.error("Error:", error);
+        // });
       });
     </script>
   </body>

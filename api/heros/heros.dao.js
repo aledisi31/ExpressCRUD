@@ -12,12 +12,15 @@ herosSchema.statics = {
     getByName: function (query, cb) {
         this.find (query, cb);
     },
-    update: function (query, updateData, cb) {
+    getById: function (query, cb) {
+        this.findById (query, cb);
+    },
+    updateOne: function (query, updateData, cb) {
         this.findOneAndUpdate (query,
             {$set: updateData}, {new: true}, cb);
     },
     delete: function (query, cb) {
-        this.findOneAndDelete (query, cb);
+        this.deleteOne (query, cb);
     }
 }
 
